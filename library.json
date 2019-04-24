@@ -1,0 +1,31 @@
+{
+    "name": "ARK-CPP-PSP-ESP8266",
+    "keywords": "ark ecosystem, crypto, blockchain, iot, arduino, esp8266, psp, platform, support, package",
+    "description": "A simple C++ Platform Support Package (PSP) for the ESP8266 and the ARK Ecosystem.",
+    "homepage": "https://github.com/ArkEcosystem/PSP-ESP8266",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/ArkEcosystem/PSP-ESP8266.git"
+    },
+    "version": "0.0.1",
+    "authors": [
+      {
+        "name": "Ark Ecosystem",
+        "email": "info@ark.io",
+        "url": "https://github.com/ArkEcosystem"
+      }
+    ],
+    "frameworks": "arduino",
+    "platforms": "*",
+    "dependencies": [
+      {
+        "name": "micro-ecc"
+      }
+    ],
+    "build": {
+      "flags": [
+        "-I src/lib"
+      ]
+    }
+  }
+  
