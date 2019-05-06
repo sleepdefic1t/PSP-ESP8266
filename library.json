@@ -22,6 +22,14 @@
         "name": "micro-ecc"
       }
     ],
+    "export": {
+      "include": [
+        "src/*",
+        "*.md",
+        "*.json",
+        "LICENSE"
+      ]
+    },
     "build": {
       "flags": [
         "-I src/lib"
