@@ -3,13 +3,6 @@
 
 #include "psp_time.h"
 
-test(time_configure) {
-    //  1: system connected and time configured sucessfully
-    //  0: configuration failed
-    // -1: system not connected
-    assertNotEqual(0, Ark::Platform::Time::Configure());
-}
-
 test(time_epoch) {
     // test parsing of epoch string.
     // "2017-03-21T13:00:00.000Z" should be '1490101200' in seconds
