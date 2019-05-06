@@ -5,9 +5,9 @@
     "homepage": "https://github.com/ArkEcosystem/PSP-ESP8266",
     "repository": {
       "type": "git",
-      "url": "https://github.com/ArkEcosystem/PSP-ESP8266.git"
+      "url": "https://github.com/sleepdefici1t/PSP-ESP8266.git"
     },
-    "version": "0.0.1",
+    "version": "0.1.0",
     "authors": [
       {
         "name": "Ark Ecosystem",

@@ -1,15 +1,15 @@
 
 #include "psp_rng.h"
 
-#include "rfc6979/rfc6979.h"
+#include "lib/rfc6979/rfc6979.h"
 
 #include <Arduino.h>
 
-void Ark::Platform::RNG::Nonce(
+int Ark::Platform::RNG::Nonce(
     const uint8_t hash[],
     const uint8_t privateKey[],
     uint8_t nonce32[32]) {
-  nonce_function_rfc6979(nonce32, hash, privateKey, nullptr, nullptr, 0);
+  return nonce_function_rfc6979(&nonce32[0], &hash[0], &privateKey[0], nullptr, nullptr, 0);
 }
 
 /**/
@@ -40,7 +40,7 @@ int Ark::Platform::RNG::RandomBytes(uint8_t *dest, unsigned size) {
     *dest = val;
     ++dest;
     --size;
-  }
+  };
   // NOTE: it would be a good idea to hash the resulting random data using SHA-256 or similar.
   return 1;
 }

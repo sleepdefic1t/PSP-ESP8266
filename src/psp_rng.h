@@ -19,7 +19,7 @@ namespace RNG {
 /**
  * void Nonce(const uint8_t hash[], const uint8_t privateKey[], uint8_t nonce32[32])
  **/
-void Nonce(
+int Nonce(
     const uint8_t hash[],
     const uint8_t privateKey[],
     uint8_t nonce32[32]);

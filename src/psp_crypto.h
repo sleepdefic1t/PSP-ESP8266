@@ -1,3 +1,11 @@
+/**
+ * This file is part of ARK Cpp Platform Support Packages.
+ *
+ * (c) Ark Ecosystem <info@ark.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ **/
 
 #ifndef PSP_CRYPTO_H
 #define PSP_CRYPTO_H
@@ -63,7 +71,9 @@ namespace Base58 {
   /**
    *  ADDRESS
    **/
-  void encode(const uint8_t source[], char *outStr);
+  void encode(const uint8_t source[], char outStr[34]);
+
+  // void fromBytes(uint8_t data[], uint8_t temp[], size_t dataLen, char *outStr);
 
   void toBytes(const char *const address, uint8_t *out);
   
@@ -100,9 +110,7 @@ namespace Hashing {
    *  RIPEMD-160
    **/
   namespace RIPEMD160 {
-
     void toBytes(const uint8_t msg[], size_t len, uint8_t hashResult[RIPEMD160_HASH_LEN]);
-
   };  //  struct RIPEMD160
 
   /********************/

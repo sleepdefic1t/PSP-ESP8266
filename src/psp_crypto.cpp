@@ -1,14 +1,13 @@
 
-
 #include "psp_crypto.h"
 #include "psp_rng.h"
 
-#include "bcl/Base58Check.hpp"
-#include "bcl/Ecdsa.hpp"
-#include "bcl/Ripemd160.hpp"
-#include "bcl/Sha256.hpp"
-#include "bcl/Sha256Hash.hpp"
-#include "bcl/Uint256.hpp"
+#include "lib/bcl/Base58Check.hpp"
+#include "lib/bcl/Ecdsa.hpp"
+#include "lib/bcl/Ripemd160.hpp"
+#include "lib/bcl/Sha256.hpp"
+#include "lib/bcl/Sha256Hash.hpp"
+#include "lib/bcl/Uint256.hpp"
 
 #include "uECC.h"
 
@@ -18,7 +17,7 @@
 
 /**/
 
-bool Ark::Platform::Crypto::IsValidPublicKey(uint8_t publicKeyBytes[32]) {
+bool Ark::Platform::Crypto::IsValidPublicKey(uint8_t publicKeyBytes[33]) {
   // create uncompressed publicKey buffer (uint8_t[64])
   uint8_t uncompressedPublicKey[64] = {};
 
@@ -47,7 +46,7 @@ void Ark::Platform::Crypto::PrivateKeyToPublicKey(
   // MSVC optimizer does bad things.
   uECC_compute_public_key(&privateKeyBytes[0], uncompressedPublicKey, curve);
 
-  // Compress the 64-byte uncompressed PublicKey to 32-bytes.
+  // Compress the 64-byte uncompressed PublicKey to 1 + 32-bytes.
   uECC_compress(uncompressedPublicKey, &publicKeyOut[0], curve);
 }
 
@@ -58,21 +57,26 @@ void Ark::Platform::Crypto::Sign(
     const uint8_t privateKey[],
     uint8_t *outR,
     uint8_t *outS) {
-
+  // create the deterministic nonce hash
   uint8_t nonce32[32] = {};
   Ark::Platform::RNG::Nonce(hash, privateKey, nonce32);
 
-  Uint256 r;
-  Uint256 s;
-  Ecdsa::sign(
+  // create r & s value Uint256 objects.
+  Uint256 r, s;
+
+  // Sign the hash using the privatekey and nonce32
+  // outs to r & s values.
+  auto ret = Ecdsa::sign(
       Uint256(privateKey),
       Sha256Hash(hash, 32),
       Uint256(nonce32),
       r, s);
-
-  // Copy the big-ending bytes to the r & s out buffers.
-  r.getBigEndianBytes(outR);
-  s.getBigEndianBytes(outS);
+  
+  if (ret) {
+    // copy bigendian bytes of r & s to the out buffers.
+    r.getBigEndianBytes(outR);
+    s.getBigEndianBytes(outS);
+  };
 }
 
 /**/
@@ -82,7 +86,6 @@ bool Ark::Platform::Crypto::Verify(
     const uint8_t hash[],
     uint8_t r[],
     uint8_t s[]) {
-  // Get the Uncompressed PublicKey //
   // create uncompressed publicKey buffer (uint8_t[64])
   uint8_t uncompressedPublicKey[64] = {};
 
@@ -102,6 +105,7 @@ bool Ark::Platform::Crypto::Verify(
   std::memcpy(&unencodedSignature[0], &r[0], 32);
   std::memcpy(&unencodedSignature[32], &s[0], 32);
 
+  // return using the uECC_verify method
   return uECC_verify(&uncompressedPublicKey[0], hash, 32, unencodedSignature, curve);
 }
 
@@ -207,5 +211,5 @@ void Ark::Platform::Hashing::SHA256::get(
   auto hash = Sha256::getHash(
       reinterpret_cast<const unsigned char *>(in),
       inLen);
-  memcpy(&out[0], hash.value, 32u);
+  std::memcpy(&out[0], hash.value, 32u);
 }
