@@ -1,3 +1,4 @@
+
 #include <AUnit.h>
 
 #include "psp_rng.h"
@@ -9,7 +10,7 @@ std::vector<uint8_t> PrivateKeyTestBytes = {
   216, 131, 156,  36,  50, 191, 208, 166,
   126, 241,  10, 128,  75, 169, 145, 234,
   187, 161, 159,  21,  74,  61, 112, 121,
-    23, 104,  29,  69, 130,  42,  87,  18
+   23, 104,  29,  69, 130,  42,  87,  18
 };
 
 // MessageHashTestBytes
@@ -17,9 +18,9 @@ std::vector<uint8_t> PrivateKeyTestBytes = {
 // 32 bytes
 std::vector<uint8_t> MessageHashTestBytes = {
   165, 145, 166, 212,  11, 244,  32,  64,
-    74,   1,  23,  51, 207, 183, 177, 144,
+   74,   1,  23,  51, 207, 183, 177, 144,
   214,  44, 101, 191,  11, 205, 163,  43,
-    87, 178, 119, 217, 173, 159,  20, 110
+   87, 178, 119, 217, 173, 159,  20, 110
 };
 
 // NonceTestBytes
@@ -32,7 +33,7 @@ std::vector<uint8_t> NonceTestBytes = {
   240,  16, 239, 185, 127,  86,  15, 200
 };
 
-test(rng_nonce) {
+test(rng, nonce) {
   std::vector<uint8_t> byteBuffer(32);
   Ark::Platform::RNG::Nonce(
       &MessageHashTestBytes[0],
@@ -42,7 +43,7 @@ test(rng_nonce) {
   assertTrue(NonceTestBytes == byteBuffer);
 }
 
-test(rng_random_bytes) {
+test(rng, random_bytes) {
   // This is not a proper test for randomness.
   // this section instead tests that 3 independently-
   // created byte-buffers do not match and don't repeat values excessively.
