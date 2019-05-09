@@ -17,7 +17,7 @@ namespace Platform {
 namespace Network {
 
 namespace HTTP {
-  std::string Get(const char* request);
+  std::string Get(const char* request, int apiVersion = 2);
   std::string Post(const char* request, const char* body);
 };
 
