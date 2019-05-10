@@ -5,7 +5,6 @@
 
 #include <cstring>
 
-
 /**
  * Connecting to WiFi is optional for testing.
  * 
